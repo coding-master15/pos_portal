@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('login', function (Request $request) {
+Route::post('login', function (Request $request) {
     return (new ApiController())->login($request);
 });
 
-Route::get('register', function (Request $request) {
+Route::post('register', function (Request $request) {
     return (new ApiController())->register($request);
 });
 
@@ -35,6 +35,6 @@ Route::get('products', function (Request $request) {
     return (new ApiController())->getProducts($request);
 });
 
-Route::get('products/create', function (Request $request) {
+Route::post('products/create', function (Request $request) {
     return (new ApiController())->createProduct($request);
 });
