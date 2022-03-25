@@ -38,3 +38,7 @@ Route::get('products', function (Request $request) {
 Route::post('products/create', function (Request $request) {
     return (new ApiController())->createProduct($request);
 });
+
+Route::post('users/create', function (Request $request) {
+    return (new ApiController())->createUser($request);
+});

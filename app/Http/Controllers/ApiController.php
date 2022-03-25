@@ -109,4 +109,35 @@ class ApiController extends Controller
             'product' => Product::where('sku', $sku)->first(),
         ];
     }
+    public function createUser($request) {
+        $admin = $request->input('admin_id');
+        $name = $request->input('name');
+        $phone = $request->input('phone');
+        $email = $request->input('email');
+        $image = $request->input('image');
+        $address = $request->input('address');
+        $type = $request->input('type') ?? 'client';
+
+        // $product = Product::where('sku', $sku)->first();
+
+        // if($product) {
+        //    return [
+        //        'message' => 'SKU is already in use'
+        //    ]; 
+        // }
+        
+        $user = User::create([
+            'admin_id' => $admin,
+            'name' => $name,
+            'phone' => $phone,
+            'email' => $email,
+            'type' => $type,
+            'address' => $address,
+            'image' => $image
+        ]);
+
+        return [
+            'user' => $user,
+        ];
+    }
 }
