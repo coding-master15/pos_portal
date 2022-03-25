@@ -11,12 +11,14 @@ class ApiController extends Controller
 {
     public function getUsers($request) {
         $admin = $request->input('admin');
-        return User::where('admin_id', $admin)->where('type', $request->input('type') ?? 'client')->paginate($request->per_page ?? 10);
+        $orderBy = $request->input('order_by') ?? 'DESC';
+        return User::where('admin_id', $admin)->where('type', $request->input('type') ?? 'client')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
     }
 
     public function getProducts($request) {
         $admin = $request->input('admin');
-        return Product::where('admin_id', $admin)->paginate($request->per_page ?? 10);
+        $orderBy = $request->input('order_by') ?? 'DESC';
+        return Product::where('admin_id', $admin)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
     }
 
     public function login($request) {
