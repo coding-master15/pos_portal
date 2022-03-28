@@ -56,7 +56,7 @@ class ApiController extends Controller
         $admin = $request->input('admin');
     
         $amount = TransactionItem::groupBy('admin_id')
-        ->selectRaw('sum(quantity * price) as sum, admin_id')
+        ->selectRaw('sum(quantity) as sum, admin_id')
         ->where('admin_id', $admin)
         //->where('price', '<=', '0')
         ->limit(1)
