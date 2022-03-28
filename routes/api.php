@@ -35,6 +35,14 @@ Route::get('products', function (Request $request) {
     return (new ApiController())->getProducts($request);
 });
 
+Route::get('transactions', function (Request $request) {
+    return (new ApiController())->getTransactions($request);
+});
+
+Route::get('stocks', function (Request $request) {
+    return (new ApiController())->getStock($request);
+});
+
 Route::post('products/create', function (Request $request) {
     return (new ApiController())->createProduct($request);
 });

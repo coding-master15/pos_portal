@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\TransactionItem;
 
 class ApiController extends Controller
 {
@@ -19,6 +21,33 @@ class ApiController extends Controller
         $admin = $request->input('admin');
         $orderBy = $request->input('order_by') ?? 'DESC';
         return Product::where('admin_id', $admin)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+    }
+
+    public function getTransactions($request) {
+        $admin = $request->input('admin');
+        $orderBy = $request->input('order_by') ?? 'DESC';
+        return Transaction::where('admin_id', $admin)->where('type', $request->input('type') ?? 'sell')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+    }
+
+    public function getStock($request) {
+        $admin = $request->input('admin');
+        $page = intval($request->input('page') ?? '1')-1;
+        $perPage = $request->input('per_page') ?? 10;
+        //$amount = TransactionItem::select(DB::raw('sum(quantity * price) as total'))->get();
+        $amount = TransactionItem::groupBy('product_id')
+   ->selectRaw('sum(quantity * price) as sum, product_id')
+   ->where('admin_id', $admin)
+   //->where('price', '<=', '0')
+   ->limit($perPage)
+   ->offset($page)
+   ->pluck('sum','product_id');
+   $data = [];
+   foreach($amount as $key => $value) {
+       $item = Product::find($key);
+       $item->price = $value;
+       $data[] = $item;
+   }
+        return $data;
     }
 
     public function login($request) {
