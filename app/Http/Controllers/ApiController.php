@@ -52,6 +52,20 @@ class ApiController extends Controller
             return $data;
     }
 
+    public function getTotalStock($request) {
+        $admin = $request->input('admin');
+    
+        $amount = TransactionItem::groupBy('admin_id')
+        ->selectRaw('sum(quantity * price) as sum, product_id')
+        ->where('admin_id', $admin)
+        //->where('price', '<=', '0')
+        ->limit(1)
+        ->offset(0)
+        ->pluck('sum','product_id');
+        $price = 0;
+            return $data;
+    }
+
     public function login($request) {
         $email = $request->input('email');
         $password = md5($request->input('password'));
