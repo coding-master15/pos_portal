@@ -56,14 +56,13 @@ class ApiController extends Controller
         $admin = $request->input('admin');
     
         $amount = TransactionItem::groupBy('admin_id')
-        ->selectRaw('sum(quantity * price) as sum, product_id')
+        ->selectRaw('sum(quantity * price) as sum, admin_id')
         ->where('admin_id', $admin)
         //->where('price', '<=', '0')
         ->limit(1)
         ->offset(0)
-        ->pluck('sum','product_id');
-        $price = 0;
-            return $data;
+        ->pluck('sum','admin_id');
+        return $amount == [] ? [] : $amount[$admin];
     }
 
     public function login($request) {
