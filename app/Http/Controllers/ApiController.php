@@ -31,23 +31,25 @@ class ApiController extends Controller
 
     public function getStock($request) {
         $admin = $request->input('admin');
-        $page = intval($request->input('page') ?? '1')-1;
-        $perPage = $request->input('per_page') ?? 10;
-        //$amount = TransactionItem::select(DB::raw('sum(quantity * price) as total'))->get();
-        $amount = TransactionItem::groupBy('product_id')
-   ->selectRaw('sum(quantity * price) as sum, product_id')
-   ->where('admin_id', $admin)
-   //->where('price', '<=', '0')
-   ->limit($perPage)
-   ->offset($page)
-   ->pluck('sum','product_id');
-   $data = [];
-   foreach($amount as $key => $value) {
-       $item = Product::find($key);
-       $item->price = $value;
-       $data[] = $item;
-   }
-        return $data;
+        $orderBy = $request->input('order_by') ?? 'DESC';
+        $data = Product::where('admin_id', $admin)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        
+        foreach($data as $key => $value) {
+            $amount = TransactionItem::groupBy('product_id')
+        ->selectRaw('sum(quantity * price) as sum, product_id')
+        ->where('id', $value->id)
+        //->where('price', '<=', '0')
+        ->limit(1)
+        ->offset(0)
+        ->pluck('sum','product_id');
+        $price = 0;
+
+        foreach($amount as $key => $value) {
+            $price = $value;
+        }
+        $value->price = $price;
+        }
+            return $data;
     }
 
     public function login($request) {
