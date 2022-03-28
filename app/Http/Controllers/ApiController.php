@@ -59,8 +59,6 @@ class ApiController extends Controller
         ->selectRaw('sum(quantity) as sum, admin_id')
         ->where('admin_id', $admin)
         //->where('price', '<=', '0')
-        ->limit(1)
-        ->offset(0)
         ->pluck('sum','admin_id');
         return $amount == [] ? [] : $amount[$admin];
     }
