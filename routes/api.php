@@ -51,6 +51,10 @@ Route::post('products/create', function (Request $request) {
     return (new ApiController())->createProduct($request);
 });
 
+Route::post('transactions/create', function (Request $request) {
+    return (new ApiController())->createTransaction($request);
+});
+
 Route::post('users/create', function (Request $request) {
     return (new ApiController())->createUser($request);
 });

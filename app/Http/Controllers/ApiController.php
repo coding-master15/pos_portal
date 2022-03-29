@@ -25,10 +25,14 @@ class ApiController extends Controller
 
     public function getTransactions($request) {
         $admin = $request->input('admin');
+        $customer = $request->input('customer_id');
         $orderBy = $request->input('order_by') ?? 'DESC';
-        return Transaction::where('admin_id', $admin)->where('type', $request->input('type') ?? 'sell')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        if($customer) {
+            return Transaction::where('admin_id', $admin)->where('customer', $customer_id)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        } else {
+            return Transaction::where('admin_id', $admin)->where('type', $request->input('type') ?? 'sell')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        }
     }
-
     public function getStock($request) {
         $admin = $request->input('admin');
         $orderBy = $request->input('order_by') ?? 'DESC';
@@ -149,6 +153,26 @@ class ApiController extends Controller
 
         return [
             'product' => Product::where('sku', $sku)->first(),
+        ];
+    }
+    public function createTransaction($request) {
+        $admin = $request->input('admin_id');
+        $customerId = $request->input('customer_id');
+        $type = $request->input('type');
+        $products = json_decode($request->input('products'));
+        
+        // Transaction::create([
+        //     'admin_id' => $admin,
+        //     'name' => $name,
+        //     'description' => $description,
+        //     'image' => $image,
+        //     'sku' => $sku,
+        //     'selling_price' => $sellingPrice,
+        //     'purchase_price' => $purchasePrice
+        // ]);
+
+        return [
+            'products' => $products,
         ];
     }
     public function createUser($request) {
