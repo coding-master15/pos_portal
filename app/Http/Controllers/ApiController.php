@@ -168,9 +168,7 @@ class ApiController extends Controller
             'total' => $total,
             'balance' => $balance,
             'user_id' => $customerId,
-            'type' => $type,
-            'selling_price' => $sellingPrice,
-            'purchase_price' => $purchasePrice
+            'type' => $type
         ]);
 
         foreach($products as $product) {
