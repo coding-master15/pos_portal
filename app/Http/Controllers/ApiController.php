@@ -156,8 +156,8 @@ class ApiController extends Controller
         ];
     }
     public function createTransaction($request) {
-        $admin = $request->input('admin_id');
-        $customerId = $request->input('user_id');
+        $admin = intval($request->input('admin_id'));
+        $customerId = intval($request->input('user_id'));
         $type = $request->input('type');
         $total = $request->input('total');
         $balance = $request->input('balance');
