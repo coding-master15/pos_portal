@@ -157,22 +157,36 @@ class ApiController extends Controller
     }
     public function createTransaction($request) {
         $admin = $request->input('admin_id');
-        $customerId = $request->input('customer_id');
+        $customerId = $request->input('user_id');
         $type = $request->input('type');
+        $total = $request->input('total');
+        $balance = $request->input('balance');
         $products = json_decode($request->input('products'));
         
-        // Transaction::create([
-        //     'admin_id' => $admin,
-        //     'name' => $name,
-        //     'description' => $description,
-        //     'image' => $image,
-        //     'sku' => $sku,
-        //     'selling_price' => $sellingPrice,
-        //     'purchase_price' => $purchasePrice
-        // ]);
+        $transaction = Transaction::create([
+            'admin_id' => $admin,
+            'total' => $total,
+            'balance' => $balance,
+            'user_id' => $customerId,
+            'type' => $type,
+            'selling_price' => $sellingPrice,
+            'purchase_price' => $purchasePrice
+        ]);
+
+        foreach($products as $product) {
+            TransactionItem::create([
+                'admin_id' => $admin,
+                'product_id' => $product->id,
+                'transaction_id' => $transaction->id,
+                'quantity' => $product->quantity,
+                'name' => $product->name,
+                'price' => $type == 'sell' ? $product->selling_price : $product->purchase_price,
+                'image' => $product->image
+            ]);
+        }
 
         return [
-            'products' => $products,
+            'transaction' => $transaction,
         ];
     }
     public function createUser($request) {
