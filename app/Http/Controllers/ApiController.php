@@ -28,7 +28,7 @@ class ApiController extends Controller
         $customer = $request->input('user_id');
         $orderBy = $request->input('order_by') ?? 'DESC';
         if($customer) {
-            return Transaction::where('admin_id', $admin)->where('customer', $customer)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+            return Transaction::where('admin_id', $admin)->where('user_id', $customer)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
         } else {
             return Transaction::where('admin_id', $admin)->where('type', $request->input('type') ?? 'sell')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
         }
