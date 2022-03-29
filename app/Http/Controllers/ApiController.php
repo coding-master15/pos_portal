@@ -25,7 +25,7 @@ class ApiController extends Controller
 
     public function getTransactions($request) {
         $admin = $request->input('admin');
-        $customer = $request->input('customer_id');
+        $customer = $request->input('user_id');
         $orderBy = $request->input('order_by') ?? 'DESC';
         if($customer) {
             return Transaction::where('admin_id', $admin)->where('customer', $customer_id)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
