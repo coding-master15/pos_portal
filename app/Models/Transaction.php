@@ -19,7 +19,7 @@ class Transaction extends Model
 
     protected $casts = [
         'total' => 'double',
-        'balance' => 'balance',
+        'balance' => 'double',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
