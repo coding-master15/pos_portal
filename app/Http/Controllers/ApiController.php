@@ -189,7 +189,7 @@ class ApiController extends Controller
                 'image' => $product->image
             ]);
             $prod = Product::find($product->id);
-            Product::whereId($id)->update([
+            Product::whereId($product->id)->update([
                 'quantity' => $type == 'sell' ? $product->quantity - $prod->quantity : $product->quantity + $prod->quantity 
             ]);
         }
