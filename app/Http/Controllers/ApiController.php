@@ -63,12 +63,15 @@ class ApiController extends Controller
     public function getTotalStock($request) {
         $admin = $request->input('admin');
     
-        $amount = TransactionItem::groupBy('admin_id')
-        ->selectRaw('sum(quantity) as sum, admin_id')
+        $amount = TransactionItem::selectRaw('sum(quantity) as sum')
         ->where('admin_id', $admin)
-        //->where('price', '<=', '0')
-        ->pluck('sum','admin_id');
-        return $amount == [] ? [] : $amount[$admin];
+        ->where('price', '<=', '0')
+        ->get('sum');
+        $amount2 = TransactionItem::selectRaw('sum(quantity) as sum')
+        ->where('admin_id', $admin)
+        ->where('price', '<=', '0')
+        ->get('sum');
+        return $amount[0]['sum'] - $amount2[0]['sum'];
     }
 
     public function login($request) {
