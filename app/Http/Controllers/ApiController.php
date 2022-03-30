@@ -51,8 +51,9 @@ class ApiController extends Controller
         ->pluck('sum','product_id');
         $price = 0;
 
-        foreach($amount as $key => $value) {
-            $price = $value;
+        foreach($amount as $key => $valuea) {
+            $price = $valuea;
+            
         }
         $value->price = $price;
         }
