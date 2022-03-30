@@ -13,14 +13,16 @@ class ApiController extends Controller
 {
     public function getUsers($request) {
         $admin = $request->input('admin');
+        $search = $request->input('search');
         $orderBy = $request->input('order_by') ?? 'DESC';
-        return User::where('admin_id', $admin)->where('type', $request->input('type') ?? 'client')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        return User::where('admin_id', $admin)->where('name', 'LIKE', "%$search%")->where('type', $request->input('type') ?? 'client')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
     }
 
     public function getProducts($request) {
         $admin = $request->input('admin');
+        $search = $request->input('search');
         $orderBy = $request->input('order_by') ?? 'DESC';
-        return Product::where('admin_id', $admin)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        return Product::where('admin_id', $admin)->where('name', 'LIKE', "%$search%")->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
     }
 
     public function getTransactions($request) {
@@ -34,9 +36,10 @@ class ApiController extends Controller
         }
     }
     public function getStock($request) {
+        $search = $request->input('search');
         $admin = $request->input('admin');
         $orderBy = $request->input('order_by') ?? 'DESC';
-        $data = Product::where('admin_id', $admin)->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        $data = Product::where('admin_id', $admin)->where('name', 'LIKE', "%$search%")->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
         
         foreach($data as $key => $value) {
             $amount = TransactionItem::groupBy('product_id')
@@ -181,6 +184,10 @@ class ApiController extends Controller
                 'price' => $type == 'sell' ? $product->selling_price : $product->purchase_price,
                 'image' => $product->image
             ]);
+            $prod = Product::find($product->id);
+            Product::whereId($id)->update([
+                'quantity' => $product->quantity + $prod->quantity
+            ]);
         }
 
         return [
@@ -216,6 +223,40 @@ class ApiController extends Controller
 
         return [
             'user' => $user,
+        ];
+    }
+    public function updateProduct($request) {
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $image = $request->input('image');
+        $sellingPrice = $request->input('selling_price');
+        $purchasePrice = $request->input('purchase_price');
+        $sku = $request->input('sku');
+
+        $delimiter = '-';
+
+        $sku = strtolower(trim(preg_replace('/[\s-]+/', $delimiter, preg_replace('/[^A-Za-z0-9-]+/', $delimiter, preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $sku))))), $delimiter));
+
+        $product = Product::where('sku', $sku)->first();
+
+        if($product && !($product->id == $id)) {
+           return [
+               'message' => 'SKU is already in use'
+           ]; 
+        }
+        
+        Product::whereId($id)->update([
+            'name' => $name,
+            'description' => $description,
+            'image' => $image,
+            'sku' => $sku,
+            'selling_price' => $sellingPrice,
+            'purchase_price' => $purchasePrice
+        ]);
+
+        return [
+            'product' => Product::where('sku', $sku)->first(),
         ];
     }
 }
