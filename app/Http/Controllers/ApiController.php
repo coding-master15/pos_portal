@@ -52,7 +52,7 @@ class ApiController extends Controller
         $price = 0;
 
         foreach($amount as $key => $valuea) {
-            $price = $valuea;
+            $price = intval($valuea);
             
         }
         $value->price = $price;
