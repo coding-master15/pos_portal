@@ -69,7 +69,7 @@ class ApiController extends Controller
         ->get('sum');
         $amount2 = TransactionItem::selectRaw('sum(quantity) as sum')
         ->where('admin_id', $admin)
-        ->where('price', '<=', '0')
+        ->where('price', '>', '0')
         ->get('sum');
         return $amount[0]['sum'] - $amount2[0]['sum'];
     }
@@ -183,14 +183,14 @@ class ApiController extends Controller
                 'admin_id' => $admin,
                 'product_id' => $product->id,
                 'transaction_id' => $transaction->id,
-                'quantity' => $product->quantity,
+                'quantity' => $product->stock,
                 'name' => $product->name,
                 'price' => $type == 'sell' ? $product->selling_price : $product->purchase_price,
                 'image' => $product->image
             ]);
             $prod = Product::find($product->id);
             Product::whereId($product->id)->update([
-                'stock' => $type == 'sell' ? $product->quantity - $prod->quantity : $product->quantity + $prod->quantity 
+                'stock' => $type == 'sell' ? $product->stock - $prod->stock : $product->stock + $prod->stock 
             ]);
         }
 
