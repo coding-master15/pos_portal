@@ -47,6 +47,10 @@ Route::get('stocks/total', function (Request $request) {
     return (new ApiController())->getTotalStock($request);
 });
 
+Route::get('totals', function (Request $request) {
+    return (new ApiController())->getTotals($request);
+});
+
 Route::post('products/create', function (Request $request) {
     return (new ApiController())->createProduct($request);
 });

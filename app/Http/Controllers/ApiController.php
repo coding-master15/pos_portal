@@ -263,4 +263,48 @@ class ApiController extends Controller
             'product' => Product::where('sku', $sku)->first(),
         ];
     }
+
+    public function getTotals($request) {
+
+        $data = [];
+
+        $admin = $request->input('admin');
+    
+        $products = Product::
+        selectRaw('count(*) as count')
+        ->where('admin_id', $admin)
+            ->get();
+
+        $clients = User::
+            selectRaw('count(*) as count')
+            ->where('admin_id', $admin)
+            ->where('type', 'client')
+                ->get();
+
+        $suppliers = User::
+        selectRaw('count(*) as count')
+        ->where('admin_id', $admin)
+        ->where('type', 'supplier')
+            ->get();
+
+        $sells = Transaction::
+        selectRaw('count(*) as count')
+        ->where('admin_id', $admin)
+        ->where('type', 'sell')
+            ->get();
+
+        $purchases = Transaction::
+        selectRaw('count(*) as count')
+        ->where('admin_id', $admin)
+        ->where('type', 'purchase')
+            ->get();
+
+        $data['products'] = $products[0]['count'];
+        $data['sells'] = $sells[0]['count'];
+        $data['clients'] = $clients[0]['count'];
+        $data['suppliers'] = $suppliers[0]['count'];
+        $data['purchases'] = $purchases[0]['count'];
+
+        return $data;
+    }
 }
