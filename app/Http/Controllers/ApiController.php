@@ -183,14 +183,14 @@ class ApiController extends Controller
                 'admin_id' => $admin,
                 'product_id' => $product->id,
                 'transaction_id' => $transaction->id,
-                'quantity' => $product->stock,
+                'quantity' => intval($product->stock),
                 'name' => $product->name,
                 'price' => $type == 'sell' ? $product->selling_price : $product->purchase_price,
                 'image' => $product->image
             ]);
             $prod = Product::find($product->id);
             Product::whereId($product->id)->update([
-                'stock' => $type == 'sell' ? $prod->stock - $product->stock : $prod->stock + $product->stock 
+                'stock' => $type == 'sell' ? $prod->stock - intval($product->stock) : $prod->stock + intval($product->stock) 
             ]);
         }
 
