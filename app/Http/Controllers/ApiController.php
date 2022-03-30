@@ -190,7 +190,7 @@ class ApiController extends Controller
             ]);
             $prod = Product::find($product->id);
             Product::whereId($product->id)->update([
-                'quantity' => $type == 'sell' ? $product->quantity - $prod->quantity : $product->quantity + $prod->quantity 
+                'stock' => $type == 'sell' ? $product->quantity - $prod->quantity : $product->quantity + $prod->quantity 
             ]);
         }
 
