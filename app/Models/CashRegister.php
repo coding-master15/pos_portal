@@ -15,6 +15,7 @@ class CashRegister extends Model
         'type',
         'name',
         'note',
+        'amount',
         'payment_date'
     ];
 

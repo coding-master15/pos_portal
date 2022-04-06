@@ -205,6 +205,7 @@ class ApiController extends Controller
         $type = $request->input('type');
         $note = $request->input('note');
         $name = $request->input('name');
+        $amount = $request->input('amount');
         $paymentDate = $request->input('payment_date');
         
         $cashRegister = CashRegister::create([
@@ -213,6 +214,7 @@ class ApiController extends Controller
             'name' => $name,
             'user_id' => $customerId,
             'type' => $type,
+            'amount' => $amount,
             'payment_date' => $paymentDate
         ]);
 
