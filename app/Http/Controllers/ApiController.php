@@ -335,6 +335,6 @@ class ApiController extends Controller
         $search = $request->input('search');
         $type = $request->input('type');
         $orderBy = $request->input('order_by') ?? 'DESC';
-        return CashRegister::where('admin_id', $admin)->where('name', 'LIKE', "%$search%")->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+        return CashRegister::where('admin_id', $admin)->where('type', 'LIKE', "%$type%")->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 20);
     }
 }
