@@ -70,3 +70,7 @@ Route::post('transactions/create', function (Request $request) {
 Route::post('users/create', function (Request $request) {
     return (new ApiController())->createUser($request);
 });
+
+Route::post('cashregister/create', function (Request $request) {
+    return (new ApiController())->createCashRegister($request);
+});

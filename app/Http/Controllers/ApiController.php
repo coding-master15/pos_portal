@@ -199,6 +199,27 @@ class ApiController extends Controller
             'transaction' => $transaction,
         ];
     }
+    public function createCashRegister($request) {
+        $admin = intval($request->input('admin_id'));
+        $customerId = intval($request->input('user_id'));
+        $type = $request->input('type');
+        $note = $request->input('note');
+        $name = $request->input('name');
+        $paymentDate = $request->input('payment_date');
+        
+        $cashRegister = CashRegister::create([
+            'admin_id' => $admin,
+            'note' => $note,
+            'name' => $name,
+            'user_id' => $customerId,
+            'type' => $type,
+            'payment_date' => $paymentDate
+        ]);
+
+        return [
+            'cash_register' => $cashRegister,
+        ];
+    }
     public function createUser($request) {
         $admin = $request->input('admin_id');
         $name = $request->input('name');
