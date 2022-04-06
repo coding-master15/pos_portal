@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use App\Models\CashRegister;
 
 class ApiController extends Controller
 {
@@ -306,5 +307,13 @@ class ApiController extends Controller
         $data['purchases'] = $purchases[0]['count'];
 
         return $data;
+    }
+
+    public function getCashRegisters($request) {
+        $admin = $request->input('admin');
+        $search = $request->input('search');
+        $type = $request->input('type');
+        $orderBy = $request->input('order_by') ?? 'DESC';
+        return CashRegister::where('admin_id', $admin)->where('name', 'LIKE', "%$search%")->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
     }
 }
