@@ -170,6 +170,18 @@ class ApiController extends Controller
         $total = $request->input('total');
         $balance = $request->input('balance');
         $products = json_decode($request->input('products'));
+
+        $cus = User::find($customerId);
+
+        CashRegister::create([
+            'admin_id' => $admin,
+            'note' => '',
+            'name' => $cus->name,
+            'user_id' => $customerId,
+            'type' => $type == 'sell' ? 'normal_sell' : ($type == 'purchase' ? 'normal_purchase' : ''),
+            'amount' => $total,
+            'payment_date' => date("Y-m-d H:i:s")
+        ]);
         
         $transaction = Transaction::create([
             'admin_id' => $admin,
