@@ -55,6 +55,10 @@ Route::get('cashregisters', function (Request $request) {
     return (new ApiController())->getCashRegisters($request);
 });
 
+Route::get('cashregisters/balance', function (Request $request) {
+    return (new ApiController())->getCashRegisterBalance($request);
+});
+
 Route::post('products/create', function (Request $request) {
     return (new ApiController())->createProduct($request);
 });

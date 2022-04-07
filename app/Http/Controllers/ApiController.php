@@ -351,4 +351,23 @@ class ApiController extends Controller
         $orderBy = $request->input('order_by') ?? 'DESC';
         return CashRegister::where('admin_id', $admin)->where('type', 'LIKE', "%$type%")->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 20);
     }
+
+    public function getCashRegisterBalance($request) {
+        $admin = $request->input('admin');
+
+        $amount = CashRegister::selectRaw('sum(amount) as sum')
+        ->where('admin_id', $admin)
+        ->where('amount', '<=', '0')
+        ->get('sum');
+
+        $amount2 = CashRegister::selectRaw('sum(amount) as sum')
+        ->where('admin_id', $admin)
+        ->where('amount', '>', '0')
+        ->get('sum');
+
+        return [
+            'cash_in' => $amount,
+            'cash_out' => $amount2
+        ];
+    }
 }
