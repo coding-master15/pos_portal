@@ -366,8 +366,8 @@ class ApiController extends Controller
         ->get('sum');
 
         return [
-            'cash_in' => $amount[0]['sum'],
-            'cash_out' => $amount2[0]['sum']
+            'cash_in' => $amount2[0]['sum'],
+            'cash_out' => $amount[0]['sum']
         ];
     }
 }
