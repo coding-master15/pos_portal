@@ -179,7 +179,7 @@ class ApiController extends Controller
             'name' => $cus->name,
             'user_id' => $customerId,
             'type' => $type == 'sell' ? 'normal_sell' : ($type == 'purchase' ? 'normal_purchase' : ''),
-            'amount' => $total,
+            'amount' => $type == 'sell' ? $total : '-'.$total,
             'payment_date' => date("Y-m-d H:i:s")
         ]);
         
