@@ -167,8 +167,8 @@ class ApiController extends Controller
         $admin = intval($request->input('admin_id'));
         $customerId = intval($request->input('user_id'));
         $type = $request->input('type');
-        $total = $request->input('total');
-        $balance = $request->input('balance');
+        $total = floatval($request->input('total'));
+        $balance = floatval($request->input('balance'));
         $products = json_decode($request->input('products'));
 
         $cus = User::find($customerId);
@@ -179,7 +179,7 @@ class ApiController extends Controller
             'name' => $cus->name,
             'user_id' => $customerId,
             'type' => $type == 'sell' ? 'normal_sell' : ($type == 'purchase' ? 'normal_purchase' : ''),
-            'amount' => $type == 'sell' ? $total : '-'.$total,
+            'amount' => $type == 'sell' ? ($total-$balance) : (-1)*($total-$balance),
             'payment_date' => date("Y-m-d H:i:s")
         ]);
         
