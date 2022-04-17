@@ -16,7 +16,7 @@ class ApiController extends Controller
     function __construct($request) {
         $header = $request->bearerToken();
 
-        if($header != 'hello') {
+        if($header != '9fb65ce4-3908-475e-8e67-4893e5b5cd9d') {
             throw new Exception('INVALID API KEY');
         }
     }
