@@ -14,7 +14,7 @@ class ApiController extends Controller
 {
 
     function __construct($request) {
-        $header = $request->header('Authorization');
+        $header = $request->bearerToken();
 
         if($header != 'hello') {
             throw exception('daw');
