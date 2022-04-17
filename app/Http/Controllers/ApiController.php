@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 use App\Models\CashRegister;
 
+
 class ApiController extends Controller
 {
 
@@ -17,7 +18,7 @@ class ApiController extends Controller
         $header = $request->bearerToken();
 
         if($header != '9fb65ce4-3908-475e-8e67-4893e5b5cd9d') {
-            throw new Exception('INVALID API KEY');
+            throw new \Exception('INVALID API KEY');
         }
     }
     public function getUsers($request) {
