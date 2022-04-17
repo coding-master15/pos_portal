@@ -12,6 +12,14 @@ use App\Models\CashRegister;
 
 class ApiController extends Controller
 {
+
+    function __construct($request) {
+        $header = $request->header('Authorization');
+
+        if($header != 'hello') {
+            throw exception('daw');
+        }
+    }
     public function getUsers($request) {
         $admin = $request->input('admin');
         $search = $request->input('search');

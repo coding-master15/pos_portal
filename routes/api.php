@@ -20,61 +20,61 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('login', function (Request $request) {
-    return (new ApiController())->login($request);
+    return (new ApiController($request))->login($request);
 });
 
 Route::post('register', function (Request $request) {
-    return (new ApiController())->register($request);
+    return (new ApiController($request))->register($request);
 });
 
 Route::get('users', function (Request $request) {
-    return (new ApiController())->getUsers($request);
+    return (new ApiController($request))->getUsers($request);
 });
 
 Route::get('products', function (Request $request) {
-    return (new ApiController())->getProducts($request);
+    return (new ApiController($request))->getProducts($request);
 });
 
 Route::get('transactions', function (Request $request) {
-    return (new ApiController())->getTransactions($request);
+    return (new ApiController($request))->getTransactions($request);
 });
 
 Route::get('stocks', function (Request $request) {
-    return (new ApiController())->getStock($request);
+    return (new ApiController($request))->getStock($request);
 });
 
 Route::get('stocks/total', function (Request $request) {
-    return (new ApiController())->getTotalStock($request);
+    return (new ApiController($request))->getTotalStock($request);
 });
 
 Route::get('totals', function (Request $request) {
-    return (new ApiController())->getTotals($request);
+    return (new ApiController($request))->getTotals($request);
 });
 
 Route::get('cashregisters', function (Request $request) {
-    return (new ApiController())->getCashRegisters($request);
+    return (new ApiController($request))->getCashRegisters($request);
 });
 
 Route::get('cashregisters/balance', function (Request $request) {
-    return (new ApiController())->getCashRegisterBalance($request);
+    return (new ApiController($request))->getCashRegisterBalance($request);
 });
 
 Route::post('products/create', function (Request $request) {
-    return (new ApiController())->createProduct($request);
+    return (new ApiController($request))->createProduct($request);
 });
 
 Route::post('products/update', function (Request $request) {
-    return (new ApiController())->updateProduct($request);
+    return (new ApiController($request))->updateProduct($request);
 });
 
 Route::post('transactions/create', function (Request $request) {
-    return (new ApiController())->createTransaction($request);
+    return (new ApiController($request))->createTransaction($request);
 });
 
 Route::post('users/create', function (Request $request) {
-    return (new ApiController())->createUser($request);
+    return (new ApiController($request))->createUser($request);
 });
 
 Route::post('cashregister/create', function (Request $request) {
-    return (new ApiController())->createCashRegister($request);
+    return (new ApiController($request))->createCashRegister($request);
 });
