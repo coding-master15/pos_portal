@@ -17,7 +17,7 @@ class ApiController extends Controller
         $header = $request->bearerToken();
 
         if($header != 'hello') {
-            throw exception('daw');
+            throw new Exception('INVALID API KEY');
         }
     }
     public function getUsers($request) {
