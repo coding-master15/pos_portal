@@ -61,14 +61,14 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+           'driver' => 'eloquent',
+           'model' => App\Models\SuperAdmin::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        //'users' => [
+         //   'driver' => 'database',
+           // 'table' => 'super_admins',
+        //],
     ],
 
     /*

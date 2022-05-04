@@ -15,7 +15,8 @@ class Admin extends Model
         'phone',
         'image',
         'shop_name',
-        'password'
+        'password',
+        'plan_expiry_date'
     ];
 
     protected $hidden = [
@@ -30,5 +31,6 @@ class Admin extends Model
     protected $casts = [
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
+        'plan_expiry_date' => 'datetime',
     ];
 }

@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
 use App\Models\CashRegister;
+use App\Models\Setting;
 
 
 class ApiController extends Controller
@@ -21,11 +22,16 @@ class ApiController extends Controller
             throw new \Exception('INVALID API KEY');
         }
     }
+
     public function getUsers($request) {
         $admin = $request->input('admin');
         $search = $request->input('search');
         $orderBy = $request->input('order_by') ?? 'DESC';
         return User::where('admin_id', $admin)->where('name', 'LIKE', "%$search%")->where('type', $request->input('type') ?? 'client')->orderBy('id', $orderBy)->paginate($request->input('per_page') ?? 10);
+    }
+
+    public function getSettings($request) {
+        return Setting::find(1);
     }
 
     public function getProducts($request) {
