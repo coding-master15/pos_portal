@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +33,10 @@ Route::group(['middleware' => 'auth'] , function() {
         // $pageName = 'analytics';
         return (new \App\Http\Controllers\UserController())->index();
     })->name('userslist.index');
+
+    Route::get('/users/getusers/', function (Request $request) {
+        return (new \App\Http\Controllers\UserController())->getUser($request);
+    })->name('users.getusers');
 
     Route::get('/settings', function() {
         // $category_name = '';

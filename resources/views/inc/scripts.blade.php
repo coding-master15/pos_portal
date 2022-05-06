@@ -620,12 +620,39 @@
       @break
 
     @case('userslist')
-      {{-- Table Datatable Alternative Pagination --}}
-      <script src="{{asset('assets/js/scrollspyNav.js')}}"></script>
-      <script>
-          checkall('todoAll', 'todochkbox');
-          $('[data-toggle="tooltip"]').tooltip()
-      </script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+
+        <script type="text/javascript">
+        $('.submitPlan').click(function () {
+            var plan = $('#'+this.id+' select');
+            var expiry = $('#'+this.id+' input.expiry');
+            var userId = $('#'+this.id+'hidden').val();
+            console.log(userId);
+        });
+        $(document).ready(function(){
+
+        // DataTable
+        $('#zeroconfig1').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('users.getusers')}}",
+        columns: [
+            { data: 'id' },
+            { data: 'image' },
+            { data: 'name' },
+            { data: 'shop_name' },
+            { data: 'email' },
+            { data: 'phone' },
+            { data: 'status' },
+            { data: 'plan' },
+            { data: 'plan_expiry_date' },
+            { data: 'created_at' },
+            { data: 'action'}
+        ]
+        });
+        });
+        </script>
       @break
 
     
