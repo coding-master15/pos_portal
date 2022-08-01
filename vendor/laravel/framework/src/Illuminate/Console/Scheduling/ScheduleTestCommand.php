@@ -2,9 +2,11 @@
 
 namespace Illuminate\Console\Scheduling;
 
+use Illuminate\Console\Application;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'schedule:test')]
 class ScheduleTestCommand extends Command
 {
     /**
@@ -20,6 +22,8 @@ class ScheduleTestCommand extends Command
      * This name is used to identify the command during lazy loading.
      *
      * @var string|null
+     *
+     * @deprecated
      */
     protected static $defaultName = 'schedule:test';
 
@@ -38,6 +42,8 @@ class ScheduleTestCommand extends Command
      */
     public function handle(Schedule $schedule)
     {
+        $phpBinary = Application::phpBinary();
+
         $commands = $schedule->events();
 
         $commandNames = [];
@@ -47,25 +53,47 @@ class ScheduleTestCommand extends Command
         }
 
         if (empty($commandNames)) {
-            return $this->comment('No scheduled commands have been defined.');
+            return $this->components->info('No scheduled commands have been defined.');
         }
 
         if (! empty($name = $this->option('name'))) {
-            $matches = array_filter($commandNames, fn ($commandName) => Str::endsWith($commandName, $name));
+            $commandBinary = $phpBinary.' '.Application::artisanBinary();
+
+            $matches = array_filter($commandNames, function ($commandName) use ($commandBinary, $name) {
+                return trim(str_replace($commandBinary, '', $commandName)) === $name;
+            });
 
             if (count($matches) !== 1) {
-                return $this->error('No matching scheduled command found.');
+                $this->components->info('No matching scheduled command found.');
+
+                return;
             }
 
             $index = key($matches);
         } else {
-            $index = array_search($this->choice('Which command would you like to run?', $commandNames), $commandNames);
+            $index = array_search($this->components->choice('Which command would you like to run?', $commandNames), $commandNames);
         }
 
         $event = $commands[$index];
 
-        $this->line('<info>['.date('c').'] Running scheduled command:</info> '.$event->getSummaryForDisplay());
+        $summary = $event->getSummaryForDisplay();
 
-        $event->run($this->laravel);
+        $command = $event instanceof CallbackEvent
+            ? $summary
+            : trim(str_replace($phpBinary, '', $event->command));
+
+        $description = sprintf(
+            'Running [%s]%s',
+            $command,
+            $event->runInBackground ? ' in background' : '',
+        );
+
+        $this->components->task($description, fn () => $event->run($this->laravel));
+
+        if (! $event instanceof CallbackEvent) {
+            $this->components->bulletList([$event->getSummaryForDisplay()]);
+        }
+
+        $this->newLine();
     }
 }

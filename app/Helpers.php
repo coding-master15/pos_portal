@@ -17,7 +17,7 @@ class Helper {
     
         // echo $page_name;
 
-        $admin_name = '| POS - Multipurpose Bootstrap Dashboard Template';
+        $admin_name = '| CORK - Multipurpose Bootstrap Dashboard Template';
 
         if ($page_name === 'analytics') :
             echo 'CORK Admin - Multipurpose Bootstrap Dashboard Template';
@@ -27,8 +27,6 @@ class Helper {
         // Apps
         elseif ($page_name === 'calendar') :
             echo 'Fullcalendar Drag and Drop Event ' . $admin_name;
-        elseif ($page_name === 'userslist') :
-                echo 'Users ';
         elseif ($page_name === 'chat') :
             echo 'Chat Application ' . $admin_name;
         elseif ($page_name === 'contacts') :
@@ -266,10 +264,6 @@ class Helper {
         // Apps
         elseif ($page_name === 'calendar') :
             // echo 'Fullcalendar Drag and Drop Event ' . $admin_name;
-            echo '<li class="breadcrumb-item"><a href="javascript:void(0);">'. $category .'</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><span>' . $page .'</span></li>';
-        elseif ($page_name === 'userslist') :
-                    // echo 'Fullcalendar Drag and Drop Event ' . $admin_name;
             echo '<li class="breadcrumb-item"><a href="javascript:void(0);">'. $category .'</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><span>' . $page .'</span></li>';
         elseif ($page_name === 'chat') :

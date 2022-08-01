@@ -16,13 +16,15 @@
     @case('analytics')
       {{-- Dashboard --}}
 <link href="{{asset('plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/dashboard/dash_2.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/css/dashboard/dash_1.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/widgets/modules-widgets.css')}}">
       @break
 
     @case('sales')
       {{-- Dashboard 2 --}}
 <link href="{{asset('plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/dashboard/dash_1.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/css/dashboard/dash_2.css')}}" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="{{asset('assets/css/widgets/modules-widgets.css')}}">
       @break
 
     @case('calendar')
@@ -777,13 +779,6 @@
       <link href="{{asset('assets/css/tables/table-basic.css')}}" rel="stylesheet" type="text/css" />
       @break
 
-    @case('userslist')
-      {{-- Table Basic --}}
-      <link href="{{asset('assets/css/scrollspyNav.css')}}" rel="stylesheet" type="text/css" />
-      <link rel="stylesheet" type="text/css" href="{{asset('assets/css/forms/theme-checkbox-radio.css')}}">
-      <link href="{{asset('assets/css/tables/table-basic.css')}}" rel="stylesheet" type="text/css" />
-      @break
-
     @case('alternative_pagination')
       {{-- Table Datatable Alternative --}}
       <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/datatables.css')}}">
@@ -867,11 +862,7 @@
       <link rel="stylesheet" type="text/css" href="{{asset('plugins/dropify/dropify.min.css')}}">
       <link href="{{asset('assets/css/users/account-setting.css')}}" rel="stylesheet" type="text/css" />
       @break
-    @case('settings')
-      {{-- User Account Settings --}}
-      <link rel="stylesheet" type="text/css" href="{{asset('plugins/dropify/dropify.min.css')}}">
-      <link href="{{asset('assets/css/users/account-setting.css')}}" rel="stylesheet" type="text/css" />
-      @break
+
     @case('profile')
       {{-- User Profile --}}
       <link href="{{asset('assets/css/users/user-profile.css')}}" rel="stylesheet" type="text/css" />

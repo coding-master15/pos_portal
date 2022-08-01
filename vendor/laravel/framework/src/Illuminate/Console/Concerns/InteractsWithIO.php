@@ -16,6 +16,15 @@ use Symfony\Component\Console\Question\Question;
 trait InteractsWithIO
 {
     /**
+     * The console components factory.
+     *
+     * @var \Illuminate\Console\View\Components\Factory
+     *
+     * @internal This property is not meant to be used or overwritten outside the framework.
+     */
+    protected $components;
+
+    /**
      * The input interface implementation.
      *
      * @var \Symfony\Component\Console\Input\InputInterface
@@ -64,7 +73,7 @@ trait InteractsWithIO
      * Get the value of a command argument.
      *
      * @param  string|null  $key
-     * @return string|array|null
+     * @return array|string|bool|null
      */
     public function argument($key = null)
     {
@@ -217,7 +226,7 @@ trait InteractsWithIO
      *
      * @param  array  $headers
      * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
-     * @param  string  $tableStyle
+     * @param  \Symfony\Component\Console\Helper\TableStyle|string  $tableStyle
      * @param  array  $columnStyles
      * @return void
      */

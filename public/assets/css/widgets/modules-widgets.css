@@ -23,7 +23,6 @@
 
 .widget {
   position: relative;
-  padding: 0;
   border-radius: 6px;
   border: none;
   box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
@@ -952,7 +951,7 @@
   padding: 0 12px;
 }
 .widget.widget-one .w-chart .w-chart-section .w-detail {
-  position: absolute;
+  position: relative;
   color: #fff;
 }
 .widget.widget-one .w-chart .w-chart-section .w-title {

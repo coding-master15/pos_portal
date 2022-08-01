@@ -12,7 +12,7 @@
                     </a>
                 </li>
                 <li class="nav-item theme-text">
-                    <a href="/analytics" class="nav-link"> POS Admin </a>
+                    <a href="/analytics" class="nav-link"> CORK </a>
                 </li>
             </ul>
 

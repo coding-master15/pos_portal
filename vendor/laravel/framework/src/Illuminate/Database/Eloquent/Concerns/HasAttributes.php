@@ -11,6 +11,8 @@ use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Illuminate\Database\Eloquent\Casts\AsEncryptedArrayObject;
+use Illuminate\Database\Eloquent\Casts\AsEncryptedCollection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\InvalidCastException;
 use Illuminate\Database\Eloquent\JsonEncodingException;
@@ -520,6 +522,10 @@ trait HasAttributes
             return call_user_func(static::$lazyLoadingViolationCallback, $this, $key);
         }
 
+        if (! $this->exists || $this->wasRecentlyCreated) {
+            return;
+        }
+
         throw new LazyLoadingViolationException($this, $key);
     }
 
@@ -626,7 +632,7 @@ trait HasAttributes
      */
     protected function mutateAttributeMarkedAttribute($key, $value)
     {
-        if (isset($this->attributeCastCache[$key])) {
+        if (array_key_exists($key, $this->attributeCastCache)) {
             return $this->attributeCastCache[$key];
         }
 
@@ -636,10 +642,10 @@ trait HasAttributes
             return $value;
         }, $value, $this->attributes);
 
-        if (! is_object($value) || ! $attribute->withObjectCaching) {
-            unset($this->attributeCastCache[$key]);
-        } else {
+        if ($attribute->withCaching || (is_object($value) && $attribute->withObjectCaching)) {
             $this->attributeCastCache[$key] = $value;
+        } else {
+            unset($this->attributeCastCache[$key]);
         }
 
         return $value;
@@ -1019,10 +1025,10 @@ trait HasAttributes
             )
         );
 
-        if (! is_object($value) || ! $attribute->withObjectCaching) {
-            unset($this->attributeCastCache[$key]);
-        } else {
+        if ($attribute->withCaching || (is_object($value) && $attribute->withObjectCaching)) {
             $this->attributeCastCache[$key] = $value;
+        } else {
+            unset($this->attributeCastCache[$key]);
         }
     }
 
@@ -1056,6 +1062,10 @@ trait HasAttributes
         $this->attributes[$key] = $this->isEncryptedCastable($key)
             ? $this->castAttributeAsEncryptedString($key, $value)
             : $value;
+
+        if ($this->isClassCastable($key)) {
+            unset($this->classCastCache[$key]);
+        }
 
         return $this;
     }
@@ -1848,7 +1858,7 @@ trait HasAttributes
     }
 
     /**
-     * Determine if the model or any of the given attribute(s) have been modified.
+     * Determine if the model or any of the given attribute(s) were changed when the model was last saved.
      *
      * @param  array|string|null  $attributes
      * @return bool
@@ -1861,7 +1871,7 @@ trait HasAttributes
     }
 
     /**
-     * Determine if any of the given attributes were changed.
+     * Determine if any of the given attributes were changed when the model was last saved.
      *
      * @param  array  $changes
      * @param  array|string|null  $attributes
@@ -1907,7 +1917,7 @@ trait HasAttributes
     }
 
     /**
-     * Get the attributes that were changed.
+     * Get the attributes that were changed when the model was last saved.
      *
      * @return array
      */
@@ -1939,8 +1949,8 @@ trait HasAttributes
             return $this->fromDateTime($attribute) ===
                 $this->fromDateTime($original);
         } elseif ($this->hasCast($key, ['object', 'collection'])) {
-            return $this->castAttribute($key, $attribute) ==
-                $this->castAttribute($key, $original);
+            return $this->fromJson($attribute) ===
+                $this->fromJson($original);
         } elseif ($this->hasCast($key, ['real', 'float', 'double'])) {
             if ($original === null) {
                 return false;
@@ -1952,6 +1962,8 @@ trait HasAttributes
                 $this->castAttribute($key, $original);
         } elseif ($this->isClassCastable($key) && in_array($this->getCasts()[$key], [AsArrayObject::class, AsCollection::class])) {
             return $this->fromJson($attribute) === $this->fromJson($original);
+        } elseif ($this->isClassCastable($key) && $original !== null && in_array($this->getCasts()[$key], [AsEncryptedArrayObject::class, AsEncryptedCollection::class])) {
+            return $this->fromEncryptedString($attribute) === $this->fromEncryptedString($original);
         }
 
         return is_numeric($attribute) && is_numeric($original)

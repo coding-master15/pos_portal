@@ -22,13 +22,13 @@
     @case('analytics')
       {{-- Dashboard --}}
       <script src="{{asset('plugins/apex/apexcharts.min.js')}}"></script>
-      <script src="{{asset('assets/js/dashboard/dash_2.js')}}"></script>
+      <script src="{{asset('assets/js/dashboard/dash_1.js')}}"></script>
       @break
 
     @case('sales')
       {{-- Dashboard 2 --}}
       <script src="{{asset('plugins/apex/apexcharts.min.js')}}"></script>
-      <script src="{{asset('assets/js/dashboard/dash_1.js')}}"></script>
+      <script src="{{asset('assets/js/dashboard/dash_2.js')}}"></script>
       @break
 
     @case('calendar')
@@ -619,44 +619,6 @@
       </script>
       @break
 
-    @case('userslist')
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-
-
-        <script type="text/javascript">
-        $('.submitPlan').click(function () {
-            var plan = $('#'+this.id+' select');
-            var expiry = $('#'+this.id+' input.expiry');
-            var userId = $('#'+this.id+'hidden').val();
-            console.log(userId);
-        });
-        $(document).ready(function(){
-
-        // DataTable
-        $('#zeroconfig1').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{route('users.getusers')}}",
-        columns: [
-            { data: 'id' },
-            { data: 'image' },
-            { data: 'name' },
-            { data: 'shop_name' },
-            { data: 'email' },
-            { data: 'phone' },
-            { data: 'status' },
-            { data: 'plan' },
-            { data: 'plan_expiry_date' },
-            { data: 'created_at' },
-            { data: 'action'}
-        ]
-        });
-        });
-        </script>
-      @break
-
-    
-
     @case('alternative_pagination')
       {{-- Table Datatable Alternative Pagination --}}
       <script src="{{asset('plugins/table/datatable/datatables.js')}}"></script>
@@ -1004,12 +966,7 @@
       <script src="{{asset('plugins/blockui/jquery.blockUI.min.js')}}"></script>
       <script src="{{asset('assets/js/users/account-settings.js')}}"></script>
       @break
-    @case('settings')
-      {{-- User Account Setting  --}}
-      <script src="{{asset('plugins/dropify/dropify.min.js')}}"></script>
-      <script src="{{asset('plugins/blockui/jquery.blockUI.min.js')}}"></script>
-      <script src="{{asset('assets/js/users/account-settings.js')}}"></script>
-      @break
+
 
     @case('widgets')
       {{-- Widgets --}}

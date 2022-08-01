@@ -195,8 +195,6 @@ if (!function_exists('setTitle')) :
             echo 'Breadcrumbs ' . $admin_name;
 
         // Tables
-        elseif ($page_name === 'userslist') :
-            echo 'Users';
         elseif ($page_name === 'bootstrap_basic_table') :
             echo 'Bootstrap Tables ' . $admin_name;
         elseif ($page_name === 'alternative_pagination') :
@@ -588,9 +586,6 @@ if (!function_exists('set_breadcrumb')) {
             // echo 'Bootstrap Tables ' . $admin_name;
             echo '<li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><span>Basic</span></li>';
-        elseif ($page_name === 'userslist') :
-            // echo 'Users';
-            echo '<li class="breadcrumb-item"><a href="javascript:void(0);">Users</a></li>';
         elseif ($page_name === 'alternative_pagination') :
             // echo 'DataTables Alternative pagination ' . $admin_name;
             echo '<li class="breadcrumb-item"><a href="javascript:void(0);">DataTables</a></li>

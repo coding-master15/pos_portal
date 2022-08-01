@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,25 +24,15 @@ Route::group(['middleware' => 'auth'] , function() {
 
     Route::get('/analytics', function() {
         // $category_name = '';
+        $data = [
+            'category_name' => 'dashboard',
+            'page_name' => 'analytics',
+            'has_scrollspy' => 0,
+            'scrollspy_offset' => '',
+        ];
         // $pageName = 'analytics';
-        return (new \App\Http\Controllers\AnalyticsController())->index();
-    })->name('analytics.index');
-
-    Route::get('/userslist', function() {
-        // $category_name = '';
-        // $pageName = 'analytics';
-        return (new \App\Http\Controllers\UserController())->index();
-    })->name('userslist.index');
-
-    Route::get('/users/getusers/', function (Request $request) {
-        return (new \App\Http\Controllers\UserController())->getUser($request);
-    })->name('users.getusers');
-
-    Route::get('/settings', function() {
-        // $category_name = '';
-        // $pageName = 'analytics';
-        return (new \App\Http\Controllers\SettingController())->index();
-    })->name('userslist.index');
+        return view('dashboard2')->with($data);
+    });
     
     Route::get('/sales', function() {
         // $category_name = '';
@@ -1331,10 +1321,3 @@ Route::get('/password/reset', function() {
 Route::get('/', function() {
     return redirect('/sales');    
 });
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
